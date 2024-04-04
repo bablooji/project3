@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display Data</title>
+</head>
+<body>
+  <h1>Data from PostgreSQL Database</h1>
+  <ul id="data-list"></ul>
+
+  <script>
+    fetch('/data') // Fetch data from server
+      .then(response => response.json()) // Parse JSON response
+      .then(data => {
+        const dataList = document.getElementById('data-list');
+        data.forEach(item => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `ID: ${item.id}, Name: ${item.name}`; // Customize according to your database schema
+          dataList.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+</body>
+</html>
