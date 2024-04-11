@@ -2,6 +2,9 @@ const express = require("express");
 const { Client } = require("pg");
 const app = express();
 const port = 3000;
+const cors = require("cors");
+app.use(cors());
+
 // Database connection configuration
 const client = new Client({
   user: "postgres",
@@ -16,21 +19,27 @@ client
   .then(() => console.log("Connected to PostgreSQL database"))
   .catch((err) => console.error("Connection error", err.stack));
 
-// Route to fetch data from the database
-app.get("/red", (req, res) => {
-  const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 30 *1609.34) AND NOT ST_DWithin( geom, ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 19 *1609.34)';
-  sendquery(res, query);
-});
+// // Route to fetch data from the database
+// app.get("/red", (req, res) => {
+//   const { lat, lon } = req.query;
+//   const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(${lon}, ${lat})::geography, 30 *1609.34) AND NOT ST_DWithin( geom, ST_MakePoint(${lon}, ${lat})::geography, 20 *1609.34)';
+//   sendquery(res, query);
+// });
 
-// Route to fetch data from the database
-app.get("/yellow", (req, res) => {
-  const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 30 *1609.34) AND NOT ST_DWithin(geom, ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 19 *1609.34)';
-  sendquery(res, query);
-});
+// // , 
+// // Route to fetch data from the database
+// app.get("/yellow", (req, res) => {
+//   const { lat, lon } = req.query;
+//   const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(${lon}, ${lat})::geography, 20 *1609.34) AND NOT ST_DWithin(geom, ST_MakePoint(${lon}, ${lat})::geography, 10 *1609.34)';
+//   sendquery(res, query);
+// });
 
 // Route to fetch data from the database
 app.get("/green", (req, res) => {
-  const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 10 *1609.34)';
+  const { lat, lon } = req.query;
+  console.log(lat, lon)
+  const query = `SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(${lon}, ${lat})::geography, 10 *1609.34)`;
+  // const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 10 *1609.34)';
   sendquery(res, query);
 });
 
@@ -51,3 +60,5 @@ function sendquery(res, query) {
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });
+
+// http://localhost:3000/green?lat=-74.05166858972046&lon=40.74988975154915
