@@ -38,7 +38,7 @@ app.get("/yellow", (req, res) => {
 app.get("/green", (req, res) => {
   const { lat, lon } = req.query;
   console.log(lon, lat)
-  const query = `SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(${lon}, ${lat})::geography, 10 *1609.34)`;
+  const query = `SELECT * FROM "evChargers".tristatecharingstations WHERE ST_DWithin(geom ,ST_MakePoint(${lon}, ${lat})::geography, 10 *1609.34)`;
   // const query = 'SELECT * FROM "evChargers".evchargesupdated_v2 WHERE ST_DWithin( geom,ST_MakePoint(-74.05166858972046, 40.74988975154915)::geography, 10 *1609.34)';
   sendquery(res, query);
 });
