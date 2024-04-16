@@ -5,3 +5,24 @@ body,
   padding: 0;
   margin: 0;
 }
+
+/* Style for the light green bar */
+.top-bar {
+  background-color: rgba(183, 42, 253, 0.919); /* Set the background color */
+  padding: 2px; /* Add padding for spacing */
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space out items */
+  align-items: center; /* Center items vertically */
+}
+
+/* Style for the white text */
+.top-bar h1 {
+  color: rgba(72, 246, 37, 0.882); /* Set the text color */
+  margin: 0; /* Remove default margin */
+  font: san-seriff;
+}
+
+/* Style for the icon */
+.icon {
+  font-size: 24px; /* Adjust the font size */
+}

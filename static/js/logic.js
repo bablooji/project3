@@ -16,8 +16,8 @@ const urls = {
 
 // Create the map object with options.
 let map = L.map("map-id", {
-  center: [40.74988975154915, -74.05166858972046],
-  zoom: 10
+  center: [41.31907562295139, -75.58593750000001],
+  zoom: 7
 });
 let layerGroup;
 let layerControl;
