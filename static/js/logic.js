@@ -1,5 +1,3 @@
-let map; // Define a global variable to hold the map instance
-
 // Define global variables to store latitude and longitude
 let clickedLat = 0;
 let clickedLon = 0;
@@ -8,82 +6,96 @@ let clickedLon = 0;
 const baseURL = "http://localhost:3000";
 const urlParams = `?lat=${clickedLat}&lon=${clickedLon}`;
 const urls = {
-    green: `${baseURL}/green${urlParams}`,
-    yellow: `${baseURL}/yellow${urlParams}`,
-    red: `${baseURL}/red${urlParams}`
+  green: `${baseURL}/green${urlParams}`,
+  yellow: `${baseURL}/yellow${urlParams}`,
+  red: `${baseURL}/red${urlParams}`
 };
 
-function createMap(evStations) {
+// Initialize map on page load (in other app types (i.e. Plotly belly button)
+// there might be an actual `init()` function, but it's unnecessary in this case)
 
-    // Check if the map is already initialized
-    if (!map) {
-        // Create the tile layer that will be the background of our map.
-        const streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
+// Create the map object with options.
+let map = L.map("map-id", {
+  center: [40.74988975154915, -74.05166858972046],
+  zoom: 10
+});
+let layerGroup;
+let layerControl;
 
-        // Create the map object with options.
-        map = L.map("map-id", {
-            center: [40.74988975154915, -74.05166858972046],
-            zoom: 10,
-            layers: [streetmap, evStations]
-        });
+// Create the tile layer that will be the background of our map,
+// and immediately add it to the map
+let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-        // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
-        L.control.layers({"Street Map": streetmap}, {"EV Stations": evStations}, {collapsed: false}).addTo(map);
-    } else {
-        // If the map is already initialized, add the new EV stations to the existing map
-        evStations.addTo(map);
-    }
+// Instantiate an empty layer control with the desired options and add it to the map.
+layerControl = L.control.layers([], [], { collapsed: false }).addTo(map);
 
-    // Add event listener to the map for click events
-    map.on('click', function (event) {
-      clickedLat = event.latlng.lat;
-      clickedLon = event.latlng.lng;
-      console.log("Latitude: " + clickedLat + ", Longitude: " + clickedLon);
-      // Update the URLs with the new coordinates
-      urls.green = `${baseURL}/green?lat=${clickedLat}&lon=${clickedLon}`;
-      urls.yellow = `${baseURL}/yellow?lat=${clickedLat}&lon=${clickedLon}`;
-      urls.red = `${baseURL}/red?lat=${clickedLat}&lon=${clickedLon}`;
-      // Fetch data for green EV stations
-      if (evStations) {
-        map.removeLayer(evStations);
-    }
-      getResponse(urls.green);
-    });
+// Dynamically add a base layer (no need for the baseMaps object)
+layerControl.addBaseLayer(streetmap, "Street Map").addTo(map);
 
-
-
-}
+// Fetch the initial data and use the promise to call createMarkers
+getResponse(urls.green);
 
 function createMarkers(evChargers) {
-    // Initialize an array to hold EV markers.
-    const evMarkers = evChargers.map(charger => {
-        // Create a marker for each charger, and bind a popup with the station's information.
-        return L.marker([charger.latitude, charger.longitude])
-            .bindPopup(`<h3>${charger.state}</h3><h3>Facility type: ${charger.city}</h3>`);
-    });
 
-    // Create a layer group from the EV markers array
-    const evStations = L.layerGroup(evMarkers);
+  // Initialize an array to hold markers.
+  // This var is only used inside this function scope.
+  let evMarkers = [];
 
-    // Call createMap function to display the EV stations on the map
-    createMap(evStations);
+  // Loop through the stations array.
+  for (let index = 0; index < evChargers.length; index++) {
+    let charger = evChargers[index];
+
+    // For each station, create a marker, and bind a popup with the station's name.
+    let evMarker = L.marker([charger.latitude, charger.longitude])
+      .bindPopup(`
+      <h3>Station Name: ${charger["station name"]}</h3>
+      <h3>Address: ${charger["street address"]}</h3>
+      <h3>City: ${charger.city}</h3>
+      <h3>State: ${charger.state}</h3>
+      <h3>Zip Code: ${charger.zipcode}</h3>
+      <p>Latitude: ${charger.latitude}</p>
+      <p>Longitude: ${charger.longitude}</p>
+      `);
+    // Add the marker to the evMarkers array.
+    evMarkers.push(evMarker);
+  }
+
+  // If layerGroup was previously populated, remove it from the map.
+  if (typeof (layerGroup) != "undefined") {
+    layerControl.removeLayer(layerGroup);
+    map.removeLayer(layerGroup);
+  }
+
+  // Populate the layer group and add it as a user-toggleable overlay layer
+  layerGroup = L.layerGroup(evMarkers).addTo(map);
+
+  // Dynamically add an overlay layer now that we have the station data
+  layerControl.addOverlay(layerGroup, "EV Stations").addTo(map);
 }
 
 function getResponse(url) {
-    console.log(url);
-    // Fetch JSON data from the provided URL
-    d3.json(url)
-        .then(response => {
-            console.log(response); // Log the JSON data
-            // Create markers for the fetched EV chargers
-            createMarkers(response);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+  d3.json(url)
+    .then(response => {
+      // console.log(response);
+      createMarkers(response);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
 }
 
-// Initially fetch data for green EV stations
-getResponse(urls.green);
+// Add event listener to the map for click events
+map.on('click', function (event) {
+  clickedLat = event.latlng.lat;
+  clickedLon = event.latlng.lng;
+
+  // Update the URLs with the new coordinates
+  urls.green = `${baseURL}/green?lat=${clickedLat}&lon=${clickedLon}`;
+  urls.yellow = `${baseURL}/yellow?lat=${clickedLat}&lon=${clickedLon}`;
+  urls.red = `${baseURL}/red?lat=${clickedLat}&lon=${clickedLon}`;
+
+  // how do i know which color url to call?
+  getResponse(urls.green);
+});
