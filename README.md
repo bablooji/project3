@@ -5,6 +5,7 @@ Title: EV CHARGERS ACCESSIBILITY & AVAILABILITY
 
 
 completed by: Alan Lawrence, Bhagya Prasad, Bryan Serino, Christopher Marinello, Li Chen
+
 complete date: 4/16/2024
 
 description:
