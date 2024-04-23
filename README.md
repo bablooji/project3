@@ -35,6 +35,17 @@
         user can find operational EV charging stations within a driving range by 1 single click.
 
 
+## TEAM Presentation Deck Content:
+## 1. DATA ANALYSIS DESIGN & TECHNOLOGY ARCHITECTURE highlighting the Data Engineering process with technology component alignment with the process
+## 2. DETAILED ETL Process with screen shots of the process followed to setup the ETL processing
+## 3. STAGING NODE JS in Github allowing the front-end Java Script to process small JSON data subsets to render the UI efficiently
+## 4. UI Interface snapshot showcasing the Front-end UI
+
+## DATA ETHICS CONSIDERATIONS/ASSUMPTIONS
+## The UI component for the user community does not provide or capture any user data.
+## The location map does not filter/exclude any sensitive location.
+## The access to the RDS database hosted in AWS requires currently password protected and additional security controls.
+
 ## keywords & references:
 
 ## NREL API - EV data
