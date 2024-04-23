@@ -1,0 +1,92 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset0 Monaco;\f2\fswiss\fcharset0 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red224\green126\blue35;\red22\green21\blue22;
+\red22\green21\blue22;\red22\green21\blue22;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c90980\c56863\c17647;\cssrgb\c11373\c10980\c11373\c3922;
+\cssrgb\c11373\c10980\c11373\c70196;\cssrgb\c11373\c10980\c11373;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{none\}}{\leveltext\leveltemplateid1\'00;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww21360\viewh17500\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs30 \cf0 \cb2 \expnd0\expndtw0\kerning0
+Basic example using Node.js with the\'a0
+\f1\fs24 \cf3 \cb4 pg
+\f0\fs30 \cf0 \cb2 \'a0library to connect to a PostgreSQL database and retrieve data:\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf0 \cb2 \kerning1\expnd0\expndtw0 		\expnd0\expndtw0\kerning0
+First, you need to install the\'a0
+\f1\fs24 \cf3 \cb4 pg
+\f0\fs30 \cf0 \cb2 \'a0library. You can do this via npm:\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 npm install pg\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 2. Then, you can create a Node.js script (let's name it\'a0
+\f1\fs24 \cf3 \cb4 app.js
+\f0\fs30 \cf0 \cb2 ) to connect to your PostgreSQL database and retrieve data:\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 const \{ Client \} = require('pg');\cb1 \
+\
+\cb2 // Database connection configuration\cb1 \
+\cb2 const client = new Client(\{\cb1 \
+\cb2 \'a0\'a0user: 'your_username',\cb1 \
+\cb2 \'a0\'a0host: 'localhost',\cb1 \
+\cb2 \'a0\'a0database: 'your_database_name',\cb1 \
+\cb2 \'a0\'a0password: 'your_password',\cb1 \
+\cb2 \'a0\'a0port: 5432, // PostgreSQL default port\cb1 \
+\cb2 \});\cb1 \
+\
+\cb2 // Connect to the PostgreSQL database\cb1 \
+\cb2 client.connect()\cb1 \
+\cb2 \'a0\'a0.then(() => console.log('Connected to PostgreSQL database'))\cb1 \
+\cb2 \'a0\'a0.catch(err => console.error('Connection error', err.stack));\cb1 \
+\
+\cb2 // Query to retrieve data\cb1 \
+\cb2 const query = 'SELECT * FROM your_table_name';\cb1 \
+\
+\cb2 // Execute the query\cb1 \
+\cb2 client.query(query)\cb1 \
+\cb2 \'a0\'a0.then(res => \{\cb1 \
+\cb2 \'a0\'a0\'a0\'a0const rows = res.rows;\cb1 \
+\cb2 \'a0\'a0\'a0\'a0console.log('Data retrieved:');\cb1 \
+\cb2 \'a0\'a0\'a0\'a0rows.forEach(row => console.log(row)); // Output retrieved data\cb1 \
+\cb2 \'a0\'a0\})\cb1 \
+\cb2 \'a0\'a0.catch(err => console.error('Query error', err.stack))\cb1 \
+\cb2 \'a0\'a0.finally(() => \{\cb1 \
+\cb2 \'a0\'a0\'a0\'a0// Close the connection\cb1 \
+\cb2 \'a0\'a0\'a0\'a0client.end()\cb1 \
+\cb2 \'a0\'a0\'a0\'a0\'a0\'a0.then(() => console.log('Connection closed'))\cb1 \
+\cb2 \'a0\'a0\'a0\'a0\'a0\'a0.catch(err => console.error('Error closing connection', err.stack));\cb1 \
+\cb2 \'a0\'a0\});\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 3. Run the script using Node.js:\cb1 \
+\pard\pardeftab720\partightenfactor0
+
+\fs36 \cf5 \
+\pard\pardeftab720\qr\partightenfactor0
+
+\fs30 \cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 node app.js\cb1 \
+\pard\pardeftab720\qr\partightenfactor0
+\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb2 This script will connect to your PostgreSQL database, execute the specified query, and output the retrieved data to the console.\cb1 \
+\cb2 Remember to ensure that your PostgreSQL server is running and accessible from the machine where you run this script.\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf6 \
+}
