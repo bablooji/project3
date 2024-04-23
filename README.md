@@ -1,16 +1,28 @@
-# project3 node JS implemention
+# PROJECT 3 - DATA ENGINEERING TRACK 
+## Title: EV CHARGERS ACCESSIBILITY & AVAILABILITY
 
+## Overview - 
+## EV vehicles Unit Sales expected to reach 2.46m vehicles in 2028. Just in the year 2024, EV market alone is project to reach a revenue of US 82.8 billion.
+## EV demand is fuelled driven by government incentives & increasing environmental consciousness among consumers.
 
-Title: EV CHARGERS ACCESSIBILITY & AVAILABILITY
+## Purpose - 
+## 
+## Nowadays, the adoption of electric vehicles in the US has been steadily increasing. In the meantime, the expansion of charging infrastructure is critical 
+## for the widespread adoption of EVs. In the US, various entities, including governments, utilities, and private companies, are investing in the development of charging stations accross the country.
+## Also, a need to provide a lightweight user interface with a map showing high availibilty of operational EV Charging stations within a desired radius.
 
+## 
+## Solution - 
+## The EV Charger accessibility project leverages an automated ETL process using Python to pull EV Charger and their location data using API from NREL.
+## The data is brought into a PostgreSQL database hosted on AWS RDS. The dataset was curated for demonstrating the user-driven functionality using JavaScript.
+## The premises of our project was used in putting together a highly flexible and loosely coupled technology framework while considering simple UI from a browser.
+## 
 
-completed by: Alan Lawrence, Bhagya Prasad, Bryan Serino, Christopher Marinello, Li Chen
-
-complete date: 4/16/2024
+### Project Team: Alan Lawrence, Bhagya Prasad, Bryan Serino, Christopher Marinello, Li Chen
+### Completion date: 4/16/2024
 
 description:
 
-Nowadays, the adoption of electric vehicles in the US has been steadily increasing. In the meantime, the expansion of charging infrastructure is critical for the widespread adoption of EVs. In the US, various entities, including governments, utilities, and private companies, are investing in the development of charging stations accross the country.
 
 In this project, we explore EV charger station data in Data Engineering track:
 
@@ -28,19 +40,19 @@ In this project, we explore EV charger station data in Data Engineering track:
 
 keywords & references:
 
-NREL API - EV data
+## NREL API - EV data
 https://developer.nrel.gov/
 
-RDS Connection
+## RDS Connection
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL-Lambda.html
 
-RDS PostgreSQL in AWS
+## RDS PostgreSQL in AWS
 https://www.youtube.com/watch?v=I_fTQTsz2nQ
 
-Node.js
+## Node.js
 https://nodejs.org/en
 
-GEO query in PostgreSQL
+## GEO query in PostgreSQL
 https://postindustria.com/postgresql-geo-queries-made-easy/
 
 
